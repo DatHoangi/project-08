@@ -1,3 +1,5 @@
+@use "../abstracts";
+
 .dropdown {
     position: absolute;
     left: 0;
@@ -7,12 +9,10 @@
     // display: none;
 
     &__inner {
-        --inner-max-height: min(582px, 100vh - 158px);
         --inner-padding: 30px;
 
         position: relative;
 
-        max-height: var(--inner-max-height);
         padding: var(--inner-padding);
 
         border-radius: 20px;
@@ -22,7 +22,7 @@
         &::before {
             content: url("../icons/dropdown-arrow.svg");
             position: absolute;
-            top: -14px;
+            top: -13px;
             left: var(--arrow-left-pos);
             translate: -50%;
             filter: var(--dropdown-arrow-color);
@@ -31,11 +31,13 @@
 }
 
 .top-menu {
-    max-height: calc(var(--inner-max-height) - var(--inner-padding) * 2);
+    --main-column-width: 292px;
+
+    position: relative;
 
     &__main {
-        width: 292px;
-        max-height: inherit;
+        width: var(--main-column-width);
+        height: calc(min(582px, 100vh - 158px) - var(--inner-padding) * 2);
         border-right: 1px solid var(--top-menu-border-color);
         overflow-y: auto;
     }
@@ -43,13 +45,22 @@
 
 .menu-column {
     display: flex;
-    column-gap: 14px;
+    gap: 14px;
+
+    + .menu-column {
+        margin-top: 22px;
+    }
 
     &__icon {
+        position: relative;
+
         flex-shrink: 0;
         width: 36px;
         height: 36px;
-        position: relative;
+
+        @include abstracts.breakpoint(xl) {
+            display: none;
+        }
     }
 
     &__content {
@@ -59,7 +70,7 @@
     &__icon-1 {
         width: 30px;
         height: 30px;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     &__icon-2 {
@@ -69,19 +80,30 @@
 
         width: 24px;
         height: 24px;
-        object-fit: cover;
-        filter: var(--menu-colum-icon-color);
+        object-fit: contain;
+        filter: var(--menu-column-icon-color);
     }
 
-    &____heading {
+    &__heading {
         margin-top: 4px;
         font-size: 1.6rem;
         font-weight: 500;
-        line-height: 1.5; /* 150% */
+        line-height: 150%; /* 150% */
     }
 
     &__list {
         margin-top: 19px;
+    }
+
+    &__item {
+        &:hover .sub-menu {
+            display: grid;
+        }
+    }
+
+    &__item:hover > &__link {
+        color: #0071dc;
+        font-weight: 500;
     }
 
     &__link {
@@ -89,11 +111,18 @@
         padding: 7px 0;
         font-size: 1.4rem;
         font-weight: 400;
-        line-height: 1.43; /* 142.857% */
-
-        &:hover {
-            color: #0071dc;
-            font-weight: 500;
-        }
+        line-height: 142.857%; /* 142.857% */
     }
+}
+
+.sub-menu {
+    position: absolute;
+    inset: 0 0 0 var(--main-column-width);
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--inner-padding);
+
+    padding-left: var(--inner-padding);
+    overflow-y: auto;
 }
