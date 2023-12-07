@@ -1320,8 +1320,7 @@ html.dark {
 
 html {
   --text-color: #1a162e;
-  --icon-color: brightness(0) saturate(100%) invert(4%) sepia(89%) saturate(1861%) hue-rotate(238deg) brightness(92%)
-      contrast(90%);
+  --icon-color: #fff;
   --body-bg: #f6f6f6;
   --header-bg-color: #eee;
   --top-act-group-bg-color: #fff;
@@ -1437,6 +1436,7 @@ html {
     flex-direction: column;
     align-items: flex-start;
     overflow-y: auto;
+    overscroll-behavior: contain;
     height: calc(100% - 40px);
   }
 }
